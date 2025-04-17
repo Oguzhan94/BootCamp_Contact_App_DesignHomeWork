@@ -1,6 +1,5 @@
-package com.oguzhan.contactapp.navigation
+package com.oguzhan.contactapp.presentation.navigation
 
-import com.oguzhan.contactapp.model.Contact
 import kotlinx.serialization.Serializable
 
 sealed interface Screen {
@@ -14,5 +13,5 @@ sealed interface Screen {
     data object Settings : Screen
 
     @Serializable
-    data object AddContact : Screen
+    data class AddContact(val isEditing: Boolean, val id: Int? = null) : Screen
 }

@@ -1,4 +1,4 @@
-package com.oguzhan.contactapp.ui.addContact
+package com.oguzhan.contactapp.presentation.screens.addContact
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -33,25 +34,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.oguzhan.contactapp.model.Contact
-import com.oguzhan.contactapp.navigation.Screen
-import com.oguzhan.contactapp.ui.addContact.components.Header
-import com.oguzhan.contactapp.ui.addContact.components.IconWithTextField
-import com.oguzhan.contactapp.ui.home.contactList
+import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.presentation.navigation.Screen
+import com.oguzhan.contactapp.presentation.screens.addContact.components.Header
+import com.oguzhan.contactapp.presentation.screens.addContact.components.IconWithTextField
 import com.oguzhan.contactapp.ui.theme.lightBlue
 
 @Composable
-fun AddContactScreen(navController: NavController) {
+fun AddContactScreen(navController: NavController, isEdit: Boolean, id: Int?) {
     var name by remember { mutableStateOf("") }
     var lastName by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
+    val viewModel: AddContactViewModel = viewModel()
+    val contact = viewModel.contact.observeAsState()
 
+    if (isEdit && id != null) {
+        viewModel.getContactById(id)
+        contact.value?.let {
+            if (name.isEmpty() && lastName.isEmpty() && phone.isEmpty() && email.isEmpty()) {
+                name = it.name
+                lastName = it.surname
+                phone = it.phoneNumber
+                email = it.email
+            }
+        }
+    }
     val insets = WindowInsets.systemBars.asPaddingValues()
     Box(
         modifier = Modifier
@@ -65,18 +77,32 @@ fun AddContactScreen(navController: NavController) {
                 .padding(top = 10.dp)
                 .padding(horizontal = 5.dp)
         ) {
-            Header(navController) {
+            Header(navController, isEdit) {
                 if (name != "" || lastName != "") {
                     if (phone != "" || email != "") {
-                        contactList.add(
-                            Contact(
-                                image = "",
-                                name = name,
-                                surname = lastName,
-                                phoneNumber = phone,
-                                email = email
+                        if (id != null) {
+                            viewModel.updateContact(
+                                ContactEntity(
+                                    id = id,
+                                    image = "",
+                                    name = name,
+                                    surname = lastName,
+                                    phoneNumber = phone,
+                                    email = email
+                                )
                             )
-                        )
+                        } else {
+                            viewModel.addContact(
+                                ContactEntity(
+                                    image = "",
+                                    name = name,
+                                    surname = lastName,
+                                    phoneNumber = phone,
+                                    email = email
+                                )
+                            )
+                        }
+
                         navController.navigate(Screen.Home)
                     }
                 }
@@ -173,15 +199,6 @@ fun AddContactScreen(navController: NavController) {
                     onValueChange = { email = it })
 
             }
-
-
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewAddContactScreen() {
-    val navController = rememberNavController()
-    AddContactScreen(navController)
 }
