@@ -1,6 +1,5 @@
-package com.oguzhan.contactapp.ui.detail.components
+package com.oguzhan.contactapp.presentation.screens.detail.components
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

@@ -1,4 +1,4 @@
-package com.oguzhan.contactapp.ui.home.components
+package com.oguzhan.contactapp.presentation.screens.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,10 +26,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.oguzhan.contactapp.R
-import com.oguzhan.contactapp.model.Contact
+import com.oguzhan.contactapp.data.database.ContactEntity
 
 @Composable
-fun LazyRowComponent(kisiList: List<Contact>) {
+fun LazyRowComponent(kisiList: List<ContactEntity>) {
     LazyRow(contentPadding = PaddingValues(horizontal = 16.dp)) {
         items(kisiList.size) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -45,19 +45,21 @@ fun LazyRowComponent(kisiList: List<Contact>) {
                             .background(Color.LightGray),
                         contentAlignment = Alignment.Center
                     ) {
-                        if (kisiList[it].image.isEmpty()) {
-                            Text(
-                                text = "${kisiList[it].name.firstOrNull()}${kisiList[it].surname.first()}",
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                textAlign = TextAlign.Center
-                            )
-                        } else {
-                            Image(
-                                painter = painterResource(R.drawable.ic_launcher_background),
-                                contentDescription = null,
-                                modifier = Modifier.fillMaxSize()
-                            )
+                        kisiList[it].image?.let { it1 ->
+                            if (it1.isEmpty()) {
+                                Text(
+                                    text = "${kisiList[it].name.firstOrNull()}${kisiList[it].surname.first()}",
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    textAlign = TextAlign.Center
+                                )
+                            } else {
+                                Image(
+                                    painter = painterResource(R.drawable.ic_launcher_background),
+                                    contentDescription = null,
+                                    modifier = Modifier.fillMaxSize()
+                                )
+                            }
                         }
                     }
                     Box(

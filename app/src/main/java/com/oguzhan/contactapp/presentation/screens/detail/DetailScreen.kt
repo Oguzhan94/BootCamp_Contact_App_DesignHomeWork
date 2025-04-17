@@ -1,4 +1,4 @@
-package com.oguzhan.contactapp.ui.detail
+package com.oguzhan.contactapp.presentation.screens.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -27,6 +27,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,19 +36,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.oguzhan.contactapp.ui.detail.components.ContactRow
-import com.oguzhan.contactapp.ui.home.contactList
+import com.oguzhan.contactapp.presentation.screens.detail.components.ContactRow
 
 
 @Composable
 fun DetailScreen(navController: NavController, contactID: Int) {
+
+    val viewModel: DetailScreenViewModel = viewModel()
+    val contact = viewModel.contact.observeAsState()
+
+    LaunchedEffect(contactID) {
+        viewModel.getContactById(contactID)
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
     ) {
-        // Back Button
         IconButton(
             onClick = { navController.navigateUp() },
             modifier = Modifier
@@ -60,8 +69,6 @@ fun DetailScreen(navController: NavController, contactID: Int) {
                 tint = Color.White
             )
         }
-
-        // Bottom Card with Profile
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -78,7 +85,6 @@ fun DetailScreen(navController: NavController, contactID: Int) {
                     .padding(top = 60.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Profile Image
                 Box(
                     modifier = Modifier
                         .size(100.dp)
@@ -87,8 +93,8 @@ fun DetailScreen(navController: NavController, contactID: Int) {
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = contactList[contactID].name.first()
-                            .toString() + contactList[contactID].surname.first().toString(),
+                        text = contact.value?.name?.first()
+                            .toString() + contact.value?.surname?.first().toString(),
                         style = MaterialTheme.typography.headlineLarge,
                         color = Color.White
                     )
@@ -96,9 +102,8 @@ fun DetailScreen(navController: NavController, contactID: Int) {
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Name
                 Text(
-                    text = contactList[contactID].name + contactList[contactID].surname,
+                    text = "${contact.value?.name} ${contact.value?.surname}",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
@@ -106,10 +111,9 @@ fun DetailScreen(navController: NavController, contactID: Int) {
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Edit Contact Button
                 Row(
                     modifier = Modifier
-                        .clickable { /* Edit action */ }
+                        .clickable { }
                         .padding(8.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -127,7 +131,6 @@ fun DetailScreen(navController: NavController, contactID: Int) {
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Contact Information
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -137,14 +140,14 @@ fun DetailScreen(navController: NavController, contactID: Int) {
                     ContactRow(
                         icon = Icons.Default.Phone,
                         title = "WhatsApp",
-                        data = contactList[contactID].phoneNumber,
+                        data = contact.value?.phoneNumber.toString(),
                         isNumber = true
                     )
 
                     ContactRow(
                         icon = Icons.Default.Email,
                         title = "Email",
-                        data = contactList[contactID].email,
+                        data = contact.value?.email.toString(),
                         isNumber = false
                     )
                 }
