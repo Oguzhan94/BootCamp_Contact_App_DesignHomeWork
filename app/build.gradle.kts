@@ -86,4 +86,11 @@ dependencies {
 
     // Kotlinx Serialization
     implementation(libs.kotlinx.serialization)
+
+    //viewModel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+
+    //LiveData
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.androidx.runtime.livedata)
 }
