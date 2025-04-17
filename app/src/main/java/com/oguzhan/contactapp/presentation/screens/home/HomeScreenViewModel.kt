@@ -5,9 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.oguzhan.contactapp.data.ContactDaoRepositoryImpl
 import com.oguzhan.contactapp.data.database.ContactDatabase
 import com.oguzhan.contactapp.data.database.ContactEntity
-import com.oguzhan.contactapp.domain.ContactDaoRepositoryImpl
+import com.oguzhan.contactapp.domain.DeleteContactUseCase
 import com.oguzhan.contactapp.domain.GetAllContactsUseCase
 import kotlinx.coroutines.launch
 
@@ -17,6 +18,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
     private val noteDao = database.contactDao()
     private val contactDaoRepositoryImpl = ContactDaoRepositoryImpl(noteDao)
     private val getAllContactsUseCase = GetAllContactsUseCase(contactDaoRepositoryImpl)
+    private val deleteContactUseCase = DeleteContactUseCase(contactDaoRepositoryImpl)
 
     private val _contacts = MutableLiveData<List<ContactEntity>>(emptyList())
     val contacts: LiveData<List<ContactEntity>> = _contacts
@@ -34,7 +36,7 @@ class HomeScreenViewModel(application: Application) : AndroidViewModel(applicati
 
     fun deleteContact(id: Int) {
         viewModelScope.launch {
-            contactDaoRepositoryImpl.deleteContact(id)
+            deleteContactUseCase(id)
             getAllContacts()
         }
     }

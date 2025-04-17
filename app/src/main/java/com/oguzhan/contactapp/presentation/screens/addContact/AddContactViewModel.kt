@@ -5,10 +5,10 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.oguzhan.contactapp.data.ContactDaoRepositoryImpl
 import com.oguzhan.contactapp.data.database.ContactDatabase
 import com.oguzhan.contactapp.data.database.ContactEntity
 import com.oguzhan.contactapp.domain.AddContactUseCase
-import com.oguzhan.contactapp.domain.ContactDaoRepositoryImpl
 import com.oguzhan.contactapp.domain.GetContactByIdUseCase
 import com.oguzhan.contactapp.domain.UpdateContactUseCase
 import kotlinx.coroutines.launch

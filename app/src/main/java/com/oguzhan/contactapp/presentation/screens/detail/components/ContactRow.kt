@@ -36,7 +36,6 @@ fun ContactRow(
             .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Left Icon
         Icon(
             imageVector = icon,
             contentDescription = title,
@@ -46,7 +45,6 @@ fun ContactRow(
 
         Spacer(modifier = Modifier.width(16.dp))
 
-        // Contact Information
         Column {
             Text(
                 text = title,
@@ -66,7 +64,6 @@ fun ContactRow(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        // Action Icons
         if (isNumber) {
             Icon(
                 imageVector = Icons.Default.MailOutline,

@@ -1,4 +1,4 @@
-package com.oguzhan.contactapp.domain
+package com.oguzhan.contactapp.data
 
 import com.oguzhan.contactapp.data.database.ContactDao
 import com.oguzhan.contactapp.data.database.ContactEntity

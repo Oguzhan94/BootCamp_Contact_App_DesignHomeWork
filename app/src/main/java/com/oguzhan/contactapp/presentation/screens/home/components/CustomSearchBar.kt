@@ -99,6 +99,5 @@ fun CustomSearchBar(searchText: MutableState<String>) {
         expanded = expanded,
         onExpandedChange = { expanded = it }
     ) {
-        // Bu alanda arama geçmişi gösterilebilir, isteğe bağlıdır.
     }
 }
