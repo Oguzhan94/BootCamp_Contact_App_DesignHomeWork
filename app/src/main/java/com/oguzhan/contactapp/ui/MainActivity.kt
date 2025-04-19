@@ -11,7 +11,9 @@ import androidx.compose.ui.Modifier
 import com.oguzhan.contactapp.presentation.navigation.NavigationGraph
 import com.oguzhan.contactapp.presentation.navigation.Screen
 import com.oguzhan.contactapp.ui.theme.MyappTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

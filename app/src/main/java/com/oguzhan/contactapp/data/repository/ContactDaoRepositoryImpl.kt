@@ -1,9 +1,13 @@
-package com.oguzhan.contactapp.data
+package com.oguzhan.contactapp.data.repository
 
-import com.oguzhan.contactapp.data.database.ContactDao
-import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.data.local.ContactDao
+import com.oguzhan.contactapp.data.local.ContactEntity
+import javax.inject.Inject
 
-class ContactDaoRepositoryImpl(private val contactDao: ContactDao) : ContactDao {
+class ContactDaoRepositoryImpl @Inject constructor(
+    private val contactDao: ContactDao
+) :
+    ContactRepository {
     override suspend fun addContact(contact: ContactEntity) {
         contactDao.addContact(contact)
     }

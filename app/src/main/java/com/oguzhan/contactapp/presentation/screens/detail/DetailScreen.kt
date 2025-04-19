@@ -36,7 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.oguzhan.contactapp.presentation.screens.detail.components.ContactRow
 
@@ -44,7 +44,7 @@ import com.oguzhan.contactapp.presentation.screens.detail.components.ContactRow
 @Composable
 fun DetailScreen(navController: NavController, contactID: Int) {
 
-    val viewModel: DetailScreenViewModel = viewModel()
+    val viewModel = hiltViewModel<DetailScreenViewModel>()
     val contact = viewModel.contact.observeAsState()
 
     LaunchedEffect(contactID) {

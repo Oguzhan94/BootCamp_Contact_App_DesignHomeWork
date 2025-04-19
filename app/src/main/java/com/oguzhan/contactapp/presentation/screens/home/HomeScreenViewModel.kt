@@ -1,24 +1,21 @@
 package com.oguzhan.contactapp.presentation.screens.home
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzhan.contactapp.data.ContactDaoRepositoryImpl
-import com.oguzhan.contactapp.data.database.ContactDatabase
-import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.data.local.ContactEntity
 import com.oguzhan.contactapp.domain.DeleteContactUseCase
 import com.oguzhan.contactapp.domain.GetAllContactsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeScreenViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val database = ContactDatabase.Companion.getDatabase(application)
-    private val noteDao = database.contactDao()
-    private val contactDaoRepositoryImpl = ContactDaoRepositoryImpl(noteDao)
-    private val getAllContactsUseCase = GetAllContactsUseCase(contactDaoRepositoryImpl)
-    private val deleteContactUseCase = DeleteContactUseCase(contactDaoRepositoryImpl)
+@HiltViewModel
+class HomeScreenViewModel @Inject constructor(
+    private val getAllContactsUseCase: GetAllContactsUseCase,
+    private val deleteContactUseCase: DeleteContactUseCase,
+) : ViewModel() {
 
     private val _contacts = MutableLiveData<List<ContactEntity>>(emptyList())
     val contacts: LiveData<List<ContactEntity>> = _contacts

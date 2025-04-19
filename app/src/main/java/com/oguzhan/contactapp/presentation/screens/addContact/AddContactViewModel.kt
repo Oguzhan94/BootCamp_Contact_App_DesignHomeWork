@@ -1,33 +1,30 @@
 package com.oguzhan.contactapp.presentation.screens.addContact
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzhan.contactapp.data.ContactDaoRepositoryImpl
-import com.oguzhan.contactapp.data.database.ContactDatabase
-import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.data.local.ContactEntity
 import com.oguzhan.contactapp.domain.AddContactUseCase
 import com.oguzhan.contactapp.domain.GetContactByIdUseCase
 import com.oguzhan.contactapp.domain.UpdateContactUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AddContactViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val database = ContactDatabase.Companion.getDatabase(application)
-    private val noteDao = database.contactDao()
-    private val contactDaoRepositoryImpl = ContactDaoRepositoryImpl(noteDao)
-    private val getAllContactsUseCase = AddContactUseCase(contactDaoRepositoryImpl)
-    private val updateContactUseCase = UpdateContactUseCase(contactDaoRepositoryImpl)
-    private val getContactByIdUseCase = GetContactByIdUseCase(contactDaoRepositoryImpl)
+@HiltViewModel
+class AddContactViewModel @Inject constructor(
+    private val addContactUseCase: AddContactUseCase,
+    private val updateContactUseCase: UpdateContactUseCase,
+    private val getContactByIdUseCase: GetContactByIdUseCase,
+) : ViewModel() {
 
     private val _contact = MutableLiveData<ContactEntity>()
     val contact: LiveData<ContactEntity> = _contact
 
     fun addContact(contactEntity: ContactEntity) {
         viewModelScope.launch {
-            getAllContactsUseCase(contactEntity)
+            addContactUseCase(contactEntity)
         }
     }
 

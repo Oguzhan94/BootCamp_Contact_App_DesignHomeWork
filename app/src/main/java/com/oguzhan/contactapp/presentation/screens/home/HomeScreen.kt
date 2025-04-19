@@ -35,7 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.oguzhan.contactapp.R
 import com.oguzhan.contactapp.presentation.screens.home.components.CustomSearchBar
@@ -49,7 +49,7 @@ fun HomeScreen(
 ) {
 
     var searchText = remember { mutableStateOf("") }
-    val viewModel: HomeScreenViewModel = viewModel()
+    val viewModel = hiltViewModel<HomeScreenViewModel>()
     val contactList = viewModel.contacts.observeAsState()
 
     val filteredContactList = remember(searchText.value, contactList.value) {

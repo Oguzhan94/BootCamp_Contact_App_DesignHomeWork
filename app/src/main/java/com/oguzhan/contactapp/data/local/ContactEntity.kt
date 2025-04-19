@@ -1,4 +1,4 @@
-package com.oguzhan.contactapp.data.database
+package com.oguzhan.contactapp.data.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

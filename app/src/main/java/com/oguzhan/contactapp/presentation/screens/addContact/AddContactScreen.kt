@@ -35,9 +35,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.data.local.ContactEntity
 import com.oguzhan.contactapp.presentation.navigation.Screen
 import com.oguzhan.contactapp.presentation.screens.addContact.components.Header
 import com.oguzhan.contactapp.presentation.screens.addContact.components.IconWithTextField
@@ -50,7 +50,7 @@ fun AddContactScreen(navController: NavController, isEdit: Boolean, id: Int?) {
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     val scrollState = rememberScrollState()
-    val viewModel: AddContactViewModel = viewModel()
+    val viewModel = hiltViewModel<AddContactViewModel>()
     val contact = viewModel.contact.observeAsState()
 
     if (isEdit && id != null) {
@@ -166,37 +166,37 @@ fun AddContactScreen(navController: NavController, isEdit: Boolean, id: Int?) {
                     icon = Icons.Outlined.LocationOn,
                     label = "Location",
                     text = email,
-                    onValueChange = { email = it })
+                    onValueChange = { })
                 Spacer(Modifier.height(5.dp))
                 IconWithTextField(
                     icon = Icons.Outlined.Home,
                     label = "Home",
                     text = email,
-                    onValueChange = { email = it })
+                    onValueChange = { })
                 Spacer(Modifier.height(5.dp))
                 IconWithTextField(
                     icon = Icons.Outlined.Home,
                     label = "WhatsApp",
                     text = email,
-                    onValueChange = { email = it })
+                    onValueChange = { })
                 Spacer(Modifier.height(5.dp))
                 IconWithTextField(
                     icon = Icons.Outlined.Home,
                     label = "Telegram",
                     text = email,
-                    onValueChange = { email = it })
+                    onValueChange = { })
                 Spacer(Modifier.height(5.dp))
                 IconWithTextField(
                     icon = Icons.Outlined.Home,
                     label = "X",
                     text = email,
-                    onValueChange = { email = it })
+                    onValueChange = { })
                 Spacer(Modifier.height(5.dp))
                 IconWithTextField(
                     icon = Icons.Outlined.Home,
                     label = "Instagram",
                     text = email,
-                    onValueChange = { email = it })
+                    onValueChange = { })
 
             }
         }

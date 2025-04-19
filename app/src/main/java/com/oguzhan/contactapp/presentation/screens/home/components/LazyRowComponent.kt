@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.oguzhan.contactapp.R
-import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.data.local.ContactEntity
 
 @Composable
 fun LazyRowComponent(kisiList: List<ContactEntity>) {

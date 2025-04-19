@@ -1,4 +1,4 @@
-package com.oguzhan.contactapp.data.database
+package com.oguzhan.contactapp.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -1,29 +1,22 @@
 package com.oguzhan.contactapp.presentation.screens.detail
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.oguzhan.contactapp.data.ContactDaoRepositoryImpl
-import com.oguzhan.contactapp.data.database.ContactDatabase
-import com.oguzhan.contactapp.data.database.ContactEntity
+import com.oguzhan.contactapp.data.local.ContactEntity
 import com.oguzhan.contactapp.domain.GetContactByIdUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class DetailScreenViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val database = ContactDatabase.Companion.getDatabase(application)
-    private val noteDao = database.contactDao()
-    private val contactDaoRepositoryImpl = ContactDaoRepositoryImpl(noteDao)
-    private val getContactByIdUseCase = GetContactByIdUseCase(contactDaoRepositoryImpl)
+@HiltViewModel
+class DetailScreenViewModel @Inject constructor(private val getContactByIdUseCase: GetContactByIdUseCase) :
+    ViewModel() {
 
     private val _contact = MutableLiveData<ContactEntity>()
     val contact: LiveData<ContactEntity> = _contact
 
-    init {
-
-    }
 
     fun getContactById(id: Int) {
         viewModelScope.launch {
